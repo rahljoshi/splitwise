@@ -19,12 +19,13 @@ public class Expense {
         this.paidBy = paidBy;
     }
 
-    public void splitBill(){
+    public int splitBill(){
         int bill = amount / users.size();
         for(int i=0;i< users.size();i++){
             paidBy.addAmount(bill,users.get(i));
             users.get(i).addAmount(bill, paidBy);
         }
+        return bill;
     }
 
     public int getId() {

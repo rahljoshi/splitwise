@@ -11,16 +11,20 @@ public class Group {
     private String description;
     private Map<Integer, Expense> expIdVsExp = new HashMap<>();
     int equalSplit;
-    public Group(List<User> group, int id, String description){
+    int totalBillRecovered;
+
+    public Group(List<User> group, int id, String description) {
         this.users = group;
         this.description = description;
         this.id = id;
+        this.totalBillRecovered = 0;
     }
 
-    public int getGroupId(){
+    public int getGroupId() {
         return this.id;
     }
-    public String getDescription(){
+
+    public String getDescription() {
         return this.description;
     }
 
@@ -28,16 +32,25 @@ public class Group {
         return this.users;
     }
 
-    public void addExpenses(int amount, String des, User paidBy, int expenseId){
+    public void addExpenses(int amount, String des, User paidBy, int expenseId) {
         List<User> expUser = new ArrayList<>(users);
         expUser.remove(paidBy);
-        Expense expense = new Expense(expenseId, des, amount, expUser,Currency.RUPEE,paidBy);
-        expense.splitBill();
+        Expense expense = new Expense(expenseId, des, amount, expUser, Currency.RUPEE, paidBy);
+        this.equalSplit = expense.splitBill();
+
         expIdVsExp.put(expenseId, expense);
 
     }
-    public void expensePaid(int amount,User paidBy, int expenseID){
-        paidBy.totalOwns -= amount;
+
+    public int getEqualSplit() {
+        return this.equalSplit;
+    }
+
+    public void expensePaid(User paidBy, int expenseID) {
+        paidBy.totalOwns -= equalSplit;
+        totalBillRecovered += equalSplit;
+
+
     }
 
 }

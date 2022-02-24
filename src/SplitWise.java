@@ -28,7 +28,7 @@ public class SplitWise {
         Group group = new Group(list, 1, "lunch");
         groupHashMap.put(1, group);
         addGroupExpenses(1,10000,group,1);
-        group.expensePaid(1000, user1,0);
+        group.expensePaid(user1,0);
     }
 
     private static void addGroupExpenses(int groupId, int amount, Group group, int userId) {
